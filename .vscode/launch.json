@@ -1,0 +1,87 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File - all code",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            },
+        },
+        {
+            "name": "Launch my_package",
+            "type": "python",
+            "request": "launch",
+            "module": "skypie",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            }
+        },
+        {
+            "name": "Python: Query oracle",
+            "type": "python",
+            "request": "launch",
+            "module": "skypie",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            },
+            "justMyCode": true,
+            "args": [
+                "queryRandom",
+                //"/home/vscode/sky-pie-precomputer/experiments/experiment-2023-09-03-17-23-35/stats.proto.bin",
+                "tier_advise/replication_factor/relative=0/relative=0",
+                "--verbose=0",
+                "--useClarkson",
+                "False",
+                "--optimizer",
+                "Candidates",
+                "ILP",
+                "--addOptimizersFromInput",
+                //"--networkPriceFile", "data/network_cost_v2.csv",
+                //"--storagePriceFile", "data/storage_pricing.csv",
+                "--noWorkloads=10",
+                "--batchSizes",
+                "1",
+                "--output",
+                "query_from_file_results.json",
+                "--precision",
+                "float32"
+            ]
+        },
+        {
+            "name": "Python: Scaling experiment",
+            "type": "python",
+            "request": "launch",
+            "module": "skypie",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            },
+            "justMyCode": true,
+            "args": [
+                "scaling",
+                //"/home/vscode/sky-pie-precomputer/results/precomputation_scaling/",
+                //"/home/vscode/sky-pie-precomputer/results/precomputation_scaling/aws-eu/3",
+                //"/home/vscode/sky-pie-precomputer/results/precomputation_scaling/aws/4",
+                "/home/vscode/sky-pie-precomputer/results/precomputation_real_trace/aws",
+                //"/home/vscode/sky-pie-precomputer/results/precomputation_scaling/",
+                "default",
+                //"--torchDeviceRayShooting", "cuda:0"
+                "--verbose=0",
+            ]
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "replication_factor": 1,
+    "region_selector": "aws",
+    "redundancy_elimination_workers": 1,
+    "replication_factor_max": 1,
+    "batch_size": 200,
+    "experiment_dir": "/home/vscode/sky-pie-precomputer/results/skystore",
+    "hydro_dir": "/home/vscode/sky-pie-precomputer/skypie_lib",
+    "data_dir": "/home/vscode/sky-pie-precomputer/data",
+    "profile": "dev",
+    "object_store_selector": "",
+    "experiment_name": null,
+    "experiment_dir_full": "/home/vscode/sky-pie-precomputer/results/skystore/aws/1-1/1/200/PrimalSimplex/no_clarkson",
+    "optimizer": "PrimalSimplex",
+    "use_clarkson": false,
+    "output_candidates": false,
+    "latency_slo": null,
+    "latency_file": "/home/vscode/sky-pie-precomputer/data/latency_41943040.csv"
+}

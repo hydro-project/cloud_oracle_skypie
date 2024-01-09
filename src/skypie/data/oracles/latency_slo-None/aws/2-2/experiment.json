@@ -1,0 +1,16 @@
+{
+    "replication_factor": 2,
+    "region_selector": "aws",
+    "redundancy_elimination_workers": 80,
+    "batch_size": 200,
+    "experiment_dir": "/home/vscode/sky-pie-precomputer/results/precomputation_scaling_lrs",
+    "hydro_dir": "/home/vscode/sky-pie-precomputer/skypie_lib",
+    "data_dir": "/home/vscode/sky-pie-precomputer",
+    "profile": "release",
+    "object_store_selector": "",
+    "experiment_name": null,
+    "experiment_dir_full": "/home/vscode/sky-pie-precomputer/results/precomputation_scaling_lrs/aws/2/80/200/lrs/no_clarkson",
+    "optimizer": "PrimalSimplex",
+    "use_clarkson": false,
+    "output_candidates": true
+}
