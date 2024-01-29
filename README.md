@@ -41,16 +41,15 @@ See [examples](./examples/simple_skypie_example.py) how to use the oracle API or
 # Notes
 
 - For compiled oracle queries on Mac/M1 pytorch a very recent version like nightly seems to be required.
+- The final rounding of binary variables in the ILP has been changed to a threshold of >0.5 (from >0.0)
 
 # TODOs
 
 ### Bugs
-- ILP/Oracle scale of costs are off, despite correct and identical placement policies.
-- ILP rounds read choices too conservatively
+- ILP/Oracle scale of costs are off, despite correct and identical placement policies. (since refactoring)
 
 ### General
 - Briefly explain the oracle query API
-- Publish SkyPIE packages
 - Upload processed ubuntu trace
 - Cleanup experiments
-- Verify that precomputation still works with the cleaned-up redundancy elimination
+- Publish SkyPIE packages

@@ -38,9 +38,9 @@ def redundancyElimination(*, inequalities: "np.ndarray", verbose=0, normalize=No
 
     # Try to use Mosek, otherwise fallback to CVXPY
     try:
-        from skypie.precomputation.redundancy_elimination_mosek import redundancyElimination as redundancyEliminationMosek
+        from skypie.precomputation_depricated.redundancy_elimination_mosek import redundancyElimination as redundancyEliminationMosek
         return redundancyEliminationMosek(inequalities=inequalities, verbose=verbose, normalize=normalize, lastColSpecial=lastColSpecial, nonnegative=nonnegative, optimizerType=optimizerType, optimizerThreads=optimizerThreads, timer=timer, equalities=equalities, knownIrredundant=knownIrredundant, overestimate=overestimate, **ignoreArgs)
     except ImportError:
         print("WARN: Mosek not available, falling back to CVXPY")
-        from skypie.precomputation.redundancy_elimination_cvxpy import redundancyElimination as redundancyEliminationCVXPY
+        from skypie.precomputation_depricated.redundancy_elimination_cvxpy import redundancyElimination as redundancyEliminationCVXPY
         return redundancyEliminationCVXPY(inequalities=inequalities, verbose=verbose, normalize=normalize, lastColSpecial=lastColSpecial, nonnegative=nonnegative, solverType=optimizerType, optimizerThreads=optimizerThreads, timer=timer, equalities=equalities, knownIrredundant=knownIrredundant, overestimate=overestimate, **ignoreArgs)

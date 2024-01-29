@@ -43,7 +43,7 @@ def redundancyEliminationClarkson(*, inequalities: "np.ndarray", interiorPointOr
     XXX: CVXPY fallback is not implemented.
     """
     try:
-        from skypie.precomputation.redundancy_elimination_clarkson_mosek import redundancyEliminationClarkson as redundancyEliminationClarksonMosek
+        from skypie.precomputation_depricated.redundancy_elimination_clarkson_mosek import redundancyEliminationClarkson as redundancyEliminationClarksonMosek
 
         return redundancyEliminationClarksonMosek(inequalities=inequalities, interiorPointOrig=interiorPointOrig, verbose=verbose, torchDtype=torchDtype, torchDeviceRayShooting=torchDeviceRayShooting, torchDeviceOther=torchDeviceOther, normalize=normalize, lastColSpecial=lastColSpecial, nonnegative=nonnegative, optimizerType=optimizerType, optimizerThreads=optimizerThreads, timer=timer, equalities=equalities, knownIrredundant=knownIrredundant, overestimate=overestimate, **ignoreArgs)
     
