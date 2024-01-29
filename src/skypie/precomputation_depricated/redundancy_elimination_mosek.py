@@ -5,7 +5,7 @@ from mosek.fusion import *
 
 from skypie.util.my_dataclasses import Timer, MosekOptimizerType, NormalizationType
 from skypie.util.mosek_settings import setSolverSettings
-from skypie.precomputation.data_normalization import dataNormalization
+from skypie.precomputation_depricated.data_normalization import dataNormalization
 
 def redundancyElimination(*, inequalities: "np.ndarray", verbose=0, normalize=NormalizationType.No, lastColSpecial = False, nonnegative = True, optimizerType = MosekOptimizerType.Free, optimizerThreads = 0, timer: "Timer|None" = None, equalities: "np.ndarray" = None, knownIrredundant: "Set[int]" = set(), overestimate = True, **ignoreArgs) -> List[Tuple[bool,float]]:
     """

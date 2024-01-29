@@ -2,7 +2,7 @@ import numpy as np
 import sys
 from typing import Set
 import torch
-from skypie.precomputation.ray_shooting import *
+from skypie.precomputation_depricated.ray_shooting import *
 from skypie.util.my_dataclasses import Timer
 from multiprocessing import Pool
 #from torch.multiprocessing import Pool, Process, set_start_method
@@ -10,9 +10,9 @@ from multiprocessing import Pool
 #     set_start_method('spawn')
 #except RuntimeError:
 #    pass
-from skypie.precomputation.pareto_brute_force import compute_pareto_frontier
-from skypie.precomputation.redundancy_elimination import redundancyElimination
-from skypie.precomputation.redundancy_elimination_clarkson import redundancyEliminationClarkson
+from skypie.precomputation_depricated.pareto_brute_force import compute_pareto_frontier
+from skypie.precomputation_depricated.redundancy_elimination import redundancyElimination
+from skypie.precomputation_depricated.redundancy_elimination_clarkson import redundancyEliminationClarkson
 
 def redundancyEliminationJob(*, start, ineqMapping, diff, optimizerType, **algoArgs):
 

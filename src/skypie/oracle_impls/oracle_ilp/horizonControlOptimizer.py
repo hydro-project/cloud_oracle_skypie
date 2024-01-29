@@ -308,16 +308,17 @@ def recedingHorizonControl(*, withRouting: bool = False, verbose = 1, withMigrat
         migration = np.array(Migration.level())
         migration.shape = (Migration.getShape()[0], Migration.getShape()[1], Migration.getShape()[2])
 
+        boolean_threshold = 0.5
         res = OptimizationResult(
             value=value,
             objectStores=[
-                { origD for (origD, d) in dest.items() if c[t,d] > 0} for t in T
+                { origD for (origD, d) in dest.items() if c[t,d] > boolean_threshold} for t in T
             ],
             assignments=[
-                { aTranslated: {origD for (origD, d) in dest.items() if a[t, aID, d] > 0 } for (aTranslated, aID) in AStranslate.items()} for t in T
+                { aTranslated: {origD for (origD, d) in dest.items() if a[t, aID, d] > boolean_threshold } for (aTranslated, aID) in AStranslate.items()} for t in T
             ],
             migrations=[
-                { origJ: {origI: migration[t,i,j] for (origI, i) in dest.items() if migration[t, i, j] > 0} for (origJ, j) in dest.items()} for t in T
+                { origJ: {origI: migration[t,i,j] for (origI, i) in dest.items() if migration[t, i, j] > boolean_threshold} for (origJ, j) in dest.items()} for t in T
             ]
         )
 
@@ -327,13 +328,13 @@ def recedingHorizonControl(*, withRouting: bool = False, verbose = 1, withMigrat
                 print(f"Time {t}")
                 print(f"C: {c[t]}")
                 for (j, jDense) in dest.items():
-                    if c[t][jDense] > 0:
+                    if c[t][jDense] > boolean_threshold:
                         for (i, iDense) in AStranslate.items():
-                            if a[t,iDense, jDense] > 0:
+                            if a[t,iDense, jDense] > boolean_threshold:
                                 print(f"R[{t},{i},{j}] ={a[t, iDense, jDense]}")
                 for (i, iDense) in dest.items():
                     for (j, jDense) in dest.items():
-                        if migration[t, iDense, jDense] > 0:
+                        if migration[t, iDense, jDense] > boolean_threshold:
                             print(f"Migration[{t},{i},{j}] ={migration[t, iDense, jDense]}")
 
     return res

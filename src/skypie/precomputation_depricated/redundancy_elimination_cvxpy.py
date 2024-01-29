@@ -3,7 +3,7 @@ import numpy as np
 from typing import Set, List, Tuple
 
 from skypie.util.my_dataclasses import Timer, MosekOptimizerType, NormalizationType
-from skypie.precomputation.data_normalization import dataNormalization
+from skypie.precomputation_depricated.data_normalization import dataNormalization
 
 def redundancyElimination(*, inequalities: "np.ndarray", verbose=0, normalize=NormalizationType.No, lastColSpecial = False, nonnegative = True, solverType = None, optimizerThreads = 0, timer: "Timer|None" = None, equalities: "np.ndarray" = None, knownIrredundant: "Set[int]" = set(), overestimate = True, epsilon = 10**-7, **ignoreArgs) -> List[Tuple[bool,float]]:
     """

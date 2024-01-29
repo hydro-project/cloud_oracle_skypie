@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
-from skypie.precomputation.redundancy_elimination_cvxpy import redundancyElimination as redundancyEliminationCVXPY
-from skypie.precomputation.redundancy_elimination_mosek import redundancyElimination as redundancyEliminationMosek
+from skypie.precomputation_depricated.redundancy_elimination_cvxpy import redundancyElimination as redundancyEliminationCVXPY
+from skypie.precomputation_depricated.redundancy_elimination_mosek import redundancyElimination as redundancyEliminationMosek
 
 class TestRedundancyElimination(unittest.TestCase):
     def test_redundancy_elimination_cvxpy(self):
