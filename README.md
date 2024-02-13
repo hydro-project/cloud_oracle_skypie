@@ -46,7 +46,7 @@ See [examples](./examples/simple_skypie_example.py) how to use the oracle API or
 # TODOs
 
 ### Bugs
-- ILP/Oracle scale of costs are off, despite correct and identical placement policies. (since refactoring)
+(No known bugs)
 
 ### General
 - Briefly explain the oracle query API
