@@ -45,6 +45,8 @@ class Package_Resources:
                     replication_factor = experiment_args.get("replication_factor", 1)
                     replication_factor_max = experiment_args.get("replication_factor_max", replication_factor)
                     latency_slo = experiment_args.get("latency_slo", float("inf"))
+                    if latency_slo is None:
+                        latency_slo = float("inf")
                     region_selector = experiment_args.get("region_selector", "")
                     object_store_selector = experiment_args.get("object_store_selector", "")
 
