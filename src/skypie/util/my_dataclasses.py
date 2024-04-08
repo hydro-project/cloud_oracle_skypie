@@ -559,7 +559,7 @@ class Problem:
         if latency_SLO is None:
             network_latency_file = None
             
-        loader = PyLoader(networkPriceFileName, storagePriceFileName, storageLoad, applicationRegionLoad, network_latency_file, latency_SLO)
+        loader = PyLoader(networkPriceFileName, storagePriceFileName, storageLoad, applicationRegionLoad, network_latency_file, latency_SLO, verbose)
 
         #storage = loader.object_store_names()
         applicationRegions = loader.application_region_mapping()

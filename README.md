@@ -5,14 +5,14 @@ Install Python SkyPIE packages.
 Linux on x86:
 ```
 python3 -m pip install --force-reinstall \
-    ./dependencies_compiled/sky_pie_baselines-0.1.0-cp37-abi3-manylinux_2_34_x86_64.whl \
-    ./dependencies_compiled/sky_pie_precomputer_proto_messages-0.0.0-cp37-abi3-manylinux_2_34_x86_64.whl
+    ./dependencies_compiled/skypie_baselines-0.2-cp37-abi3-manylinux_2_34_x86_64.whl \
+    ./dependencies_compiled/skypie_proto_messages-0.1-cp37-abi3-manylinux_2_34_x86_64.whl
 ```
 MacOSx on Arm:
 ```
 python3 -m pip install --force-reinstall \
-    ./dependencies_compiled/sky_pie_baselines-0.1.0-cp37-abi3-macosx_11_0_arm64.whl \
-    ./dependencies_compiled/sky_pie_precomputer_proto_messages-0.0.0-cp37-abi3-macosx_11_0_arm64.whl
+    ./dependencies_compiled/skypie_baselines-0.1-cp37-abi3-macosx_11_0_arm64.whl \
+    ./dependencies_compiled/skypie_proto_messages-0.1-cp37-abi3-macosx_11_0_arm64
 ```
 
 ## SkyPIE Oracle
