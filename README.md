@@ -11,7 +11,7 @@ python3 -m pip install --force-reinstall \
 MacOSx on Arm:
 ```
 python3 -m pip install --force-reinstall \
-    ./dependencies_compiled/skypie_baselines-0.1-cp37-abi3-macosx_11_0_arm64.whl \
+    ./dependencies_compiled/skypie_baselines-0.2-cp37-abi3-macosx_11_0_arm64.whl \
     ./dependencies_compiled/skypie_proto_messages-0.1-cp37-abi3-macosx_11_0_arm64
 ```
 
