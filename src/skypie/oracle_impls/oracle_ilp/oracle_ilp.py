@@ -84,7 +84,7 @@ class OracleImplMosek:
             #problem = copy.deepcopy(self.__problem)
             #problem.setWorkload(workload)
             query_no = len(res)
-            res.append(self.__pool.apply_async(recedingHorizonControl, kwds={**self.__problem.__dict__, "withRouting": False, "withMigrationCosts": False, "timer": timer}, callback=lambda x: print(f"Query done: {len(query_no)}/{len(w)}")))
+            res.append(self.__pool.apply_async(recedingHorizonControl, kwds={**self.__problem.__dict__, "withRouting": False, "withMigrationCosts": False, "timer": timer}, callback=lambda x: print(f"Query done: {query_no}/{len(w)}")))
             
             #res.append(recedingHorizonControl(**self.__problem.__dict__, withRouting = False, withMigrationCosts=False, timer=timer))
 
