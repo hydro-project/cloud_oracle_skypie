@@ -15,9 +15,15 @@ class OracleImplMosek:
     minReplicationFactor: int = 0
     threads: int = 0
     access_cost_heuristic: bool = False
+    ignore_considered_scenario: bool = False
+    region_selector: str = None
+    object_store_selector: str = None
     __problem: Problem = field(init=False)
     __oracle: "Oracle" = field(init=False)
     __problemArgs: Dict[str, Any] = field(init=False, default_factory=dict)
+
+    def get_application_regions(self):
+        return self.__problem.AStranslate
 
     def prepare_schemes(self, oracle: "Oracle"):
         """
@@ -27,14 +33,14 @@ class OracleImplMosek:
 
         self.__oracle = oracle
 
-        storageLoad = oracle.get_object_stores_considered()
-        applicationRegionLoad = oracle.get_application_regions()
+        storageLoad = oracle.get_object_stores_considered() if not self.ignore_considered_scenario else []
+        applicationRegionLoad = oracle.get_application_regions() if not self.ignore_considered_scenario else {}
         minReplicationFactor = int(oracle.get_min_replication_factor() if self.minReplicationFactor <= 0 else self.minReplicationFactor)-1
         if self.strictReplication:
             maxReplicationFactor = int(oracle.get_max_replication_factor())-1
         else:
             maxReplicationFactor = len(oracle.get_object_stores_considered())
-        problemArgsNow = {"storagePriceFileName": self.storagePriceFileName, "networkPriceFileName": self.networkPriceFileName, "applicationRegionLoad": applicationRegionLoad, "storageLoad": storageLoad, "min_f": minReplicationFactor, "max_f": maxReplicationFactor, "verbose": oracle.verbose, "threads": self.threads, "network_latency_file": self.network_latency_file, "latency_slo": self.latency_slo}
+        problemArgsNow = {"storagePriceFileName": self.storagePriceFileName, "networkPriceFileName": self.networkPriceFileName, "applicationRegionLoad": applicationRegionLoad, "storageLoad": storageLoad, "min_f": minReplicationFactor, "max_f": maxReplicationFactor, "verbose": oracle.verbose, "threads": self.threads, "network_latency_file": self.network_latency_file, "latency_slo": self.latency_slo, "region_selector": self.region_selector, "object_store_selector": self.object_store_selector}
         doLoad = len(self.__problemArgs) < 1 or not np.all([k in problemArgsNow and v == problemArgsNow[k] for k, v in self.__problemArgs.items()])
         if doLoad:
             self.__problem = Problem(**problemArgsNow)

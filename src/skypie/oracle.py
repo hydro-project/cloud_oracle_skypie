@@ -147,7 +147,7 @@ class Oracle:
 
         # Load optimal partitions
         if optimizer_type.type == "Candidates":
-            # Use candidate partitions to query optima. The result is still optimal, but the computation takes longer.
+            # Use candidate partitions to query optima. The result is still optimal, get_object_stores_consideredbut the computation takes longer.
             if len(self.__candidateSchemes) > 0:
                 self.__replicationSchemes = self.__candidateSchemes
             else:
@@ -254,7 +254,13 @@ class Oracle:
         return self.__candidateSchemes
 
     def get_application_regions(self) -> Dict[str, int]:
-        return self.__applicationRegions
+        try:
+            return self.__instance.get_application_regions()
+        except:
+            return self.__applicationRegions
+        
+    def get_no_apps(self) -> int:
+        return len(self.get_application_regions())
 
     def get_object_stores_considered(self) -> bool:
         return self.__objectStoresConsidered
@@ -319,9 +325,9 @@ class Oracle:
         See create_workload_by_region_name for a more convenient way to create workloads.
         """
         # XXX: Instantiate workload according to application region order in schemes, i.e., must use their correct index of get/ingress/egress.
-        if put.shape[0] != self.no_apps:
+        if put.shape[0] != self.get_no_apps():
             raise ValueError("Number of puts does not match number of applications")
-        if get.shape[0] != self.no_apps:
+        if get.shape[0] != self.get_no_apps():
             raise ValueError("Number of gets does not match number of applications")
 
         return Workload(size=size, put=put, get=get, ingress=ingress, egress=egress, rescale=rescale)
@@ -348,13 +354,15 @@ class Oracle:
         - Be sure to set ingress and egress appropriately for the specified put/get values for each region. Missing or incorrect network traffic leads to wrong results.
         """
 
+        application_regions = self.get_application_regions()
+        no_apps = self.get_no_apps()
         def translate(items, type):
-            target = np.zeros(self.no_apps)
+            target = np.zeros(no_apps)
             for region, count in items.items():
-                if region in self.__applicationRegions:
-                    target[self.__applicationRegions[region]] = count
+                if region in application_regions:
+                    target[application_regions[region]] = count
                 else:
-                    raise ValueError(f"Region {region} of workload {type} spec. not found in application regions!\n" + "Application regions: " + str(self.__applicationRegions))
+                    raise ValueError(f"Region {region} of workload {type} spec. not found in application regions!\n" + "Application regions: " + str(application_regions))
             return target
 
         put_translated = translate(put, "put")

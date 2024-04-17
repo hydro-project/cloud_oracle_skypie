@@ -416,6 +416,8 @@ class Problem:
     loadFromFile: bool = True # Load from file if filenames are provided
     applicationRegionLoad: Dict[Any, int] = field(default_factory=dict) # List of application regions to load from file
     storageLoad: List[Any] = field(default_factory=list) # List of destinations to load from file
+    region_selector: str = "" # Selector string to match considered cloud vendor and region
+    object_store_selector: str = "" # Selector string to match object store tier
     # Derived helper inputs
     AStranslate: Dict[Any, int] = field(init=False) # Mapping from original AS to dense AS
     ASdense: List[int] = field(init=False) # List of dense AS
@@ -554,12 +556,21 @@ class Problem:
         else:
             self.AS = list(applicationRegions.keys())
 
-    def __loadCSV(self,*, storagePriceFileName: str, networkPriceFileName: str, applicationRegionLoad: Dict[Any, int] = dict(), storageLoad: List[Any] = list(), network_latency_file: str = None, latency_SLO: float = None, selector: str = "", verbose: int = 0):
+    def __loadCSV(self,*, storagePriceFileName: str, networkPriceFileName: str, applicationRegionLoad: Dict[Any, int] = dict(), storageLoad: List[Any] = list(), network_latency_file: str = None, latency_SLO: float = None, region_selector: str = None, object_store_selector: str = None, verbose: int = 0):
         
         if latency_SLO is None:
             network_latency_file = None
             
-        loader = PyLoader(networkPriceFileName, storagePriceFileName, storageLoad, applicationRegionLoad, network_latency_file, latency_SLO, verbose)
+        # If object store selector is given, region selector must be given as well or default to empty string
+        if object_store_selector is not None:
+            region_selector = region_selector or ""
+
+        # If region selector is given, object stores to load and application regions to load are ignored
+        if region_selector is not None:
+            storageLoad = []
+            applicationRegionLoad = {}
+
+        loader = PyLoader(networkPriceFileName, storagePriceFileName, storageLoad, applicationRegionLoad, network_latency_file, latency_SLO, verbose, region_selector=region_selector, object_store_selector=object_store_selector)
 
         #storage = loader.object_store_names()
         applicationRegions = loader.application_region_mapping()
@@ -588,9 +599,9 @@ class Problem:
 
         if self.loadFromFile and self.storagePriceFileName is not None and self.networkPriceFileName is not None:
             if len(self.applicationRegionLoad) == 0:
-                raise ValueError("applicationRegionLoad must be set if loadFromFile is set to True")
+                print("Warning: No application regions to load from file specified. All application regions will be loaded from file.")
             # Load input from file and afterwards initialize
-            self.__loadCSV(storagePriceFileName=self.storagePriceFileName, networkPriceFileName=self.networkPriceFileName, selector=self.selector, verbose=self.verbose, applicationRegionLoad=self.applicationRegionLoad, storageLoad=self.storageLoad, network_latency_file=self.network_latency_file, latency_SLO=self.latency_slo)
+            self.__loadCSV(storagePriceFileName=self.storagePriceFileName, networkPriceFileName=self.networkPriceFileName, verbose=self.verbose, applicationRegionLoad=self.applicationRegionLoad, storageLoad=self.storageLoad, network_latency_file=self.network_latency_file, latency_SLO=self.latency_slo, region_selector=self.region_selector, object_store_selector=self.object_store_selector)
 
             self.loadFromFile = False
 

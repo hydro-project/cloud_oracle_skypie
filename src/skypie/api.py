@@ -6,7 +6,7 @@ from skypie.util.util import PACKAGE_RESOURCES, Timer
 
 __all__ = ["create_oracle", "OracleType", "get_AVAILABLE_ORACLE_IMPLEMENTATIONS", "get_default_oracle_impl_args", "PACKAGE_RESOURCES", "Timer"]
 
-def create_oracle(*, oracle_directory:str, oracle_type: OracleType, scenario_name:str = "default", verbose: int = 0, oracle_impl_args: Dict[str, Any] = dict()) -> Oracle:
+def create_oracle(*, oracle_directory:str, oracle_type: OracleType, scenario_name:str = "default", verbose: int = 0, oracle_impl_args: Dict[str, Any] = dict(), verify_experiment_args: bool = True) -> Oracle:
     """
     Creates an instance of the Oracle, which is used to compute object placement decisions for a given input file and scenario.
 
@@ -16,6 +16,7 @@ def create_oracle(*, oracle_directory:str, oracle_type: OracleType, scenario_nam
     - scenario_name (str, optional): The name of the scenario to be used when several oracles have been precomputed in the same input file. Defaults to "default".
     - verbose (int, optional): The level of verbosity for logging. 0 means no logging, 1 means basic logging, and 2 means detailed logging. Defaults to 0.
     - oracle_impl_args (Dict[str, Any], optional): A dictionary of implementation-specific arguments to be passed to the oracle implementation. Defaults to an empty dictionary. An empty dictionary means that the default values of the implementation will be used. The default arguments can be retrieved using the get_default_oracle_impl_args function, then be modified and passed to this function.
+    - verify_experiment_args (bool, optional): A flag to verify the experiment arguments against the oracle implementation arguments. Verification fails if experiment arguments are overwritten and do not match. Defaults to False.
 
     # Returns
         Oracle: An instance of the Oracle, which is used to compute object placement decisions for a given input file and scenario.
@@ -42,7 +43,7 @@ def create_oracle(*, oracle_directory:str, oracle_type: OracleType, scenario_nam
 
     # Read the experiment arguments to check for contradictions with the oracle implementation args
     experiment_args_file_name = os.path.join(oracle_directory, "experiment.json")
-    if os.path.isfile(experiment_args_file_name):
+    if os.path.isfile(experiment_args_file_name) and verify_experiment_args:
         import json
         contradictions = dict()
         experiment_args = json.load(open(experiment_args_file_name, "r"))

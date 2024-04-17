@@ -192,6 +192,15 @@ def setImplementationArgs(*, implementation: "OracleType", args: Dict[str, Any],
 
         implementationArgs["network_latency_file"] = args.get("network_latency_file", None)
         implementationArgs["latency_slo"] = args.get("latency_slo", None)
+
+        if "ignore_considered_scenario" in args:
+            implementationArgs["ignore_considered_scenario"] = args["ignore_considered_scenario"]
+        
+        if "region_selector" in args:
+            implementationArgs["region_selector"] = args["region_selector"]
+        if "object_store_selector" in args:
+            implementationArgs["object_store_selector"] = args["object_store_selector"]
+
     elif implementation == OracleType.KMEANS:
         if not "networkPriceFile" in args or not "storagePriceFile" in args:
             raise ValueError("Network and storage price files must be provided for Kmeans optimizer.")
