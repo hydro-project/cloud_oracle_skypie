@@ -6,7 +6,7 @@ from ast import literal_eval
 from typing import List
 
 from skypie.oracle import Oracle
-from skypie.my_dataclasses import OptimizerType
+from skypie.util.my_dataclasses import OptimizerType
 from skypie.experiments.benchmarking import benchmarkQuerying
 
 def query_trace(*, accessSetRegionMapping: str, inputFileName: str, scenarioName: str, addOptimizersFromInput: bool, optimizer: List[OptimizerType], noWorkloads: int, no_warmup: bool, translateOptSchemes: bool, output_file: str, skipWorkloadResults: bool, batchSizes: List[int], implArgs=dict(), verbose=0, filterTimestampByDate=None, inputWorkloads: List[str], sizeScale=1, ingressScale=1, egressScale=1, rescale=1, output=None, exp_args=dict(), skip_loaded_optimizers=False):

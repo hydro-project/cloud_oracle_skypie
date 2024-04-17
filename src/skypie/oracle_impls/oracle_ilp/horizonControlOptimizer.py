@@ -37,6 +37,7 @@ def recedingHorizonControl(*, withRouting: bool = False, verbose = 1, withMigrat
         M.setSolverParam("mioConstructSol", "on")
 
         M.setSolverParam("numThreads", optimizerThreads)
+        print(f"Using {optimizerThreads} threads")
 
         if verbose > 0:
             print(f"|AS|={len(ASdense)}\n|dest|={len(destDense)}")

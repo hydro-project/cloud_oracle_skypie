@@ -35,7 +35,7 @@ workload = oracle.create_workload_by_region_name(size=1, put={"aws-us-east-1":1}
 #workload = oracle.create_workload(size=1, put=[1,0,0], get=[0,1,0], ingress=[0,0,0], egress=[0,0,0])
 
 # Query the oracle for the optimal scheme
-decisions = oracle.query(w=workload, translateOptSchemes=True)
+decisions = oracle.query(w=[workload,workload, workload], translateOptSchemes=True)
 
 cost, decision = decisions[0]
 # Object stores that store the object of the given workload, all of these need to receive updates of the object

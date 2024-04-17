@@ -1,5 +1,6 @@
 import copy
 from dataclasses import dataclass, field
+from multiprocessing import Pool
 
 from skypie.util.my_dataclasses import *
 from skypie.oracle_impls.oracle_ilp.horizonControlOptimizer import recedingHorizonControl, Problem
@@ -21,6 +22,15 @@ class OracleImplMosek:
     __problem: Problem = field(init=False)
     __oracle: "Oracle" = field(init=False)
     __problemArgs: Dict[str, Any] = field(init=False, default_factory=dict)
+    __pool: Pool = field(init=False, default=None)
+
+    def __post_init__(self):
+        if self.threads > 0:
+            self.__pool = Pool(processes=self.threads)
+        else:
+            self.__pool = Pool()
+
+        self.threads = 2
 
     def get_application_regions(self):
         return self.__problem.AStranslate
@@ -65,16 +75,26 @@ class OracleImplMosek:
         res = []
 
         for workload in w:            
-            print(f"Query done: {len(res)}/{len(w)}")
+            #print(f"Query done: {len(res)}/{len(w)}")
             sys.stdout.flush()
+
             self.__problem.setWorkload(workload)
-            res.append(recedingHorizonControl(**self.__problem.__dict__, withRouting = False, withMigrationCosts=False, timer=timer))
+            #res.append(recedingHorizonControl(**self.__problem.__dict__, withRouting = False, withMigrationCosts=False, timer=timer))
+            
+            #problem = copy.deepcopy(self.__problem)
+            #problem.setWorkload(workload)
+            query_no = len(res)
+            res.append(self.__pool.apply_async(recedingHorizonControl, kwds={**self.__problem.__dict__, "withRouting": False, "withMigrationCosts": False, "timer": timer}, callback=lambda x: print(f"Query done: {len(query_no)}/{len(w)}")))
+            
+            #res.append(recedingHorizonControl(**self.__problem.__dict__, withRouting = False, withMigrationCosts=False, timer=timer))
 
-            if self.__oracle.verbose > 1:
-                print(self.__problem)
-                res[-1].__dict__["problem"] = copy.deepcopy(self.__problem)
+            #if self.__oracle.verbose > 1:
+            #    print(self.__problem)
+            #    res[-1].__dict__["problem"] = copy.deepcopy(self.__problem)
 
-            print(f"Query done: {len(res)}/{len(w)}")
-            sys.stdout.flush()
+            #print(f"Query done: {len(res)}/{len(w)}")
+            #sys.stdout.flush()
+
+        res = [r.get() for r in res]
 
         return [ (r.value, r) for r in res]

@@ -5,7 +5,7 @@ import numpy as np
 from typing import List, Tuple
 
 from skypie.oracle import Oracle
-from skypie.my_dataclasses import OptimizerType
+from skypie.util.my_dataclasses import OptimizerType
 from skypie.experiments.benchmarking import benchmarkQuerying
 
 def query_random(*, inputFileName: str, scenarioName: str, addOptimizersFromInput: bool, optimizer: List[OptimizerType], workloadSeed: int, workloadRange: Tuple[float,float], noWorkloads: int, queryStepSize: int, querySkip: int, no_warmup: bool, translateOptSchemes: bool, output_file: str, skipWorkloadResults: bool, batchSizes: List[int], implArgs=dict(), exp_args=dict(), verbose=0):
