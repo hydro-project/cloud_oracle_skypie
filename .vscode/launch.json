@@ -46,7 +46,7 @@
                 "--useClarkson",
                 "False",
                 "--optimizer",
-                "Candidates",
+                //"Candidates",
                 "ILP",
                 "--addOptimizersFromInput",
                 //"--networkPriceFile", "data/network_cost_v2.csv",
