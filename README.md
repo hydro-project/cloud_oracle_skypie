@@ -43,6 +43,41 @@ See [examples](./examples/simple_skypie_example.py) how to use the oracle API or
 - For compiled oracle queries on Mac/M1 pytorch a very recent version like nightly seems to be required.
 - The final rounding of binary variables in the ILP has been changed to a threshold of >0.5 (from >0.0)
 
+# Rerun Experiments
+
+- Precomputation
+- Querying
+- Plotting
+
+## Online Optimization Performance
+
+- Precomputation inside Docker: `python -m deploy --experiment sigmod_scaling --redundancy-elimination-workers=60 --output-dir=./local_results/precomputation_scaling`
+- Experiment "Online Optimization Time":
+- Experiment "Online Optimization Accuracy":
+
+## Precomputation Performance
+
+- Precomputation inside Docker: `python -m deploy --experiment sigmod_batch_size --redundancy-elimination-workers=60 --output-dir=./local_results/precomputation_scaling`
+- Experiment for query time:
+
+## Real Trace
+
+- Download trace files
+- Execute precomputation inside Docker container: `python -m deploy --experiment sigmod_real_trace --redundancy-elimination-workers=60 --output-dir=./local_results/precomputation_real_trace`
+- Execute experiment: `python3 -m skypie real_trace [directory of precomputed oracle] --trace_dir [directory of downloaded trace]`
+    - Overwrite CUDA device with `--torchDeviceRayShooting cuda:X` or skip cuda with `--torchDeviceRayShooting cpu`
+    - Overwrite output directory with `--output [directory]`
+- Result location default, relative to working directory: `results/real_trace/real_trace_result.pandas.pickle`
+
+## TODO
+
+- Upload trace
+- Use default output dirs and configure queries to pick these
+- Integrate full experiment run into Docker
+- Plots
+- Compare performance to paper after refactoring
+- Compare performance of compile versus interpreted querying
+
 # TODOs
 
 ### Bugs

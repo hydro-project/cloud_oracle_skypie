@@ -61,7 +61,7 @@
             ]
         },
         {
-            "name": "Python: Scaling experiment",
+            "name": "Python: Real Trace Experiment",
             "type": "python",
             "request": "launch",
             "module": "skypie",
@@ -72,14 +72,17 @@
             },
             "justMyCode": true,
             "args": [
-                "scaling",
+                "real_trace",
+                //"/data/tbang/docker/volumes/hydroflow-workspace/_data/sky-pie-precomputer/results/precomputation_scaling/aws/2/80/200/PrimalSimplex/no_clarkson/", 
+                //"/workspaces/sky-pie-precomputer/local_results/test/aws/1-1/1/200/PrimalSimplex/no_clarkson/",
+                "/data/tbang/git/sky-pie-precomputer/local_results/precomputation_real_trace/aws/1-4/60/200/PrimalSimplex/no_clarkson/",
                 //"/home/vscode/sky-pie-precomputer/results/precomputation_scaling/",
                 //"/home/vscode/sky-pie-precomputer/results/precomputation_scaling/aws-eu/3",
                 //"/home/vscode/sky-pie-precomputer/results/precomputation_scaling/aws/4",
-                "/home/vscode/sky-pie-precomputer/results/precomputation_real_trace/aws",
+                //"/home/vscode/sky-pie-precomputer/results/precomputation_real_trace/aws",
                 //"/home/vscode/sky-pie-precomputer/results/precomputation_scaling/",
-                "default",
-                //"--torchDeviceRayShooting", "cuda:0"
+                "--torchDeviceRayShooting", "cuda:3",
+                "--trace_dir", "/data/tbang/ubuntu_trace_final/",
                 "--verbose=0",
             ]
         }

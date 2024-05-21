@@ -65,7 +65,7 @@ class OracleImplPyTorch(OracleInterface):
 
         # Construct state for querying
         queryData_non_batched = self.__queryData.view(self.__queryData.shape[1], self.__queryData.shape[2])
-        self.__minimization_query = MinimizationQuery(planes=queryData_non_batched, device=self.device_query, dtype=self.data_type, compile=self.compiled)
+        self.__minimization_query = MinimizationQuery(planes=queryData_non_batched, device=self.device_query, dtype=self.data_type, compile=self.compiled, max_batch_size=self.max_batch_size)
         # XXX: Be sure that the planes of the query data have intercept as first element and cost -1 as last element!
         self.__directed_drift_query = DirectedDriftQuery(planes=queryData_non_batched, device=self.device_query, dtype=self.data_type, compile=self.compiled)
 
@@ -84,6 +84,11 @@ class OracleImplPyTorch(OracleInterface):
         
         if timer is not None:
             timer.continueComputation()
+
+        # Make sure the batch size fits, reinitialize if necessary
+        if workloadVectorLocal.shape[0] > self.max_batch_size:
+            queryData_non_batched = self.__queryData.view(self.__queryData.shape[1], self.__queryData.shape[2])
+            self.__minimization_query = MinimizationQuery(planes=queryData_non_batched, device=self.device_query, dtype=self.data_type, compile=self.compiled, max_batch_size=self.max_batch_size)
 
         # Compute cost of each scheme for all workloads and return the index of the cheapest scheme
         values, indices = self.__minimization_query.query(inputs=workloadVectorLocal)

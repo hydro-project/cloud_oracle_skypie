@@ -3,11 +3,7 @@ import copy
 
 from skypie.experiments.experiment_real_trace import RealTraceExperiment, Trace
 
-def real_trace(*, precomputation_root_dir: str, precomputation_file_base_name: str = "experiment.json", trace_dir: str, output_file_name: str="", cuda_device: str = "cuda:0"):
-
-    do_baselines = False
-    do_spanstore = True
-    do_skypie = False
+def real_trace(*, precomputation_root_dir: str, precomputation_file_base_name: str = "experiment.json", trace_dir: str, output_file_name: str="", cuda_device: str = "cuda:0", do_spanstore: bool = True, do_baselines: bool = True, do_skypie: bool = True):
 
     access_set_region_mapping = [
         "aws-us-east-2:0",
@@ -31,12 +27,12 @@ def real_trace(*, precomputation_root_dir: str, precomputation_file_base_name: s
         Trace("access_sets_of_10_regions_worst-case_0p.parquet", "objects_of_10_regions_worst-case_0p.0.parquet", 0.0),
         Trace("access_sets_of_10_regions_worst-case_001p.parquet", "objects_of_10_regions_worst-case_001p.0.parquet", 0.001),
         Trace("access_sets_of_10_regions_worst-case_01p.parquet", "objects_of_10_regions_worst-case_01p.0.parquet", 0.01),
-        #Trace("access_sets_of_10_regions_worst-case_02p.parquet", "objects_of_10_regions_worst-case_02p.0.parquet", 0.02),
-        #Trace("access_sets_of_10_regions_worst-case_05p.parquet", "objects_of_10_regions_worst-case_05p.0.parquet", 0.05),
         Trace("access_sets_of_10_regions_worst-case_10p.parquet", "objects_of_10_regions_worst-case_10p.0.parquet", 0.1),
-        #Trace("access_sets_of_10_regions_worst-case_20p.parquet", "objects_of_10_regions_worst-case_20p.0.parquet", 0.2),
-        #Trace("access_sets_of_10_regions_worst-case_50p.parquet", "objects_of_10_regions_worst-case_50p.0.parquet", 0.5),
         Trace("access_sets_of_10_regions_worst-case_100p.parquet", "objects_of_10_regions_worst-case_100p.0.parquet", 1.0),
+        ##Trace("access_sets_of_10_regions_worst-case_02p.parquet", "objects_of_10_regions_worst-case_02p.0.parquet", 0.02),
+        ##Trace("access_sets_of_10_regions_worst-case_05p.parquet", "objects_of_10_regions_worst-case_05p.0.parquet", 0.05),
+        ##Trace("access_sets_of_10_regions_worst-case_20p.parquet", "objects_of_10_regions_worst-case_20p.0.parquet", 0.2),
+        ##Trace("access_sets_of_10_regions_worst-case_50p.parquet", "objects_of_10_regions_worst-case_50p.0.parquet", 0.5),
     ]
 
     # Set the path for the trace files
@@ -72,6 +68,8 @@ def real_trace(*, precomputation_root_dir: str, precomputation_file_base_name: s
         #no_workloads = 1,
         verbose=0,
         filter_timestamp_by_date="2023-02-20_06:00:00" # %Y-%m-%d_%H:%M:%S
+        # Small trace for testing
+        #filter_timestamp_by_date="2023-02-13_06:00:00" # %Y-%m-%d_%H:%M:%S
     )
 
     args_spanstore = copy.deepcopy(args_base)
@@ -98,8 +96,7 @@ def real_trace(*, precomputation_root_dir: str, precomputation_file_base_name: s
     if do_skypie:
         args_list_per_object.append(args_per_object_skypie)
 
-
-    if cuda_device != "cpu" and False:
+    if cuda_device != "cpu":
         args_per_object_gpu = args_base.copy()
         args_per_object_gpu["experiment_dir"] = os.path.join(root_dir, "per_object_gpu")
         args_per_object_gpu["optimizer"] = []
@@ -116,7 +113,7 @@ def real_trace(*, precomputation_root_dir: str, precomputation_file_base_name: s
     experiments = [*RealTraceExperiment.from_traces(args_list_per_object=args_list_per_object, args_list_access_set=args_list_access_set, precomputation_root_dir=precomputation_root_dir, precomputation_file_base_name=precomputation_file_base_name, traces=traces)]
 
     # Run the experiments
-    print(f"Running {len(experiments)} experiment")
+    print(f"Running {len(experiments)} experiments")
 
     # Run the experiments
     RealTraceExperiment.run_all(experiments=experiments, output_file=os.path.join(root_dir, output_file))

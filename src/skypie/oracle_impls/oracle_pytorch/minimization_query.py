@@ -38,11 +38,13 @@ class MinimizationQuery:
         assert inputs.shape[0] <= self.__inputs.shape[0], f"Batch size {inputs.shape[0]} is larger than the maximum batch size {self.__inputs.shape[0]}"
         assert inputs.shape[1] == self.__inputs.shape[1], f"Input dimension {inputs.shape[1]} does not match the expected input dimension {self.__inputs.shape[1]}"
         # Set the inputs
-        self.__inputs.copy_(inputs)
+        self.__inputs[:inputs.shape[0]].copy_(inputs)
         if self.compiled:
-            return self.__compiled_minimization_query()
+            outputs, output_index = self.__compiled_minimization_query()
         else:
-            return self.__minimization_query()
+            outputs, output_index = self.__minimization_query()
+
+        return outputs[:inputs.shape[0]], output_index[:inputs.shape[0]]
         
 class TestMinimizationQuery(unittest.TestCase):
     def _execute_test(self, compile_query):
