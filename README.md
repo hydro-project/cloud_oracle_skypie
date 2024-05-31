@@ -53,3 +53,26 @@ See [examples](./examples/simple_skypie_example.py) how to use the oracle API or
 - Upload processed ubuntu trace
 - Cleanup experiments
 - Publish SkyPIE packages
+
+# Publication
+
+[Link to paper](https://dl.acm.org/doi/10.1145/3639310)
+```
+@article{10.1145/3639310,
+    author = {Bang, Tiemo and Douglas, Chris and Crooks, Natacha and Hellerstein, Joseph M.},
+    title = {SkyPIE: A Fast \& Accurate Oracle for Object Placement},
+    year = {2024},
+    issue_date = {February 2024},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    volume = {2},
+    number = {1},
+    url = {https://doi.org/10.1145/3639310},
+    doi = {10.1145/3639310},
+    journal = {Proc. ACM Manag. Data},
+    month = {mar},
+    articleno = {55},
+    numpages = {27},
+    keywords = {cloud oracle, data placement, exact, object placement, offline}
+}
+```
