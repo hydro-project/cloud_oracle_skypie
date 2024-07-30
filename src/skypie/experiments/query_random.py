@@ -8,7 +8,7 @@ from skypie.oracle import Oracle
 from skypie.util.my_dataclasses import OptimizerType
 from skypie.experiments.benchmarking import benchmarkQuerying
 
-def query_random(*, inputFileName: str, scenarioName: str, addOptimizersFromInput: bool, optimizer: List[OptimizerType], workloadSeed: int, workloadRange: Tuple[float,float], noWorkloads: int, queryStepSize: int, querySkip: int, no_warmup: bool, translateOptSchemes: bool, output_file: str, skipWorkloadResults: bool, batchSizes: List[int], implArgs=dict(), exp_args=dict(), verbose=0):
+def query_random(*, inputFileName: str, scenarioName: str, addOptimizersFromInput: bool, optimizer: List[OptimizerType], workloadSeed: int, workloadRange: Tuple[float,float], noWorkloads: int, queryStepSize: int, querySkip: int, no_warmup: bool, translateOptSchemes: bool, output_file: str, skipWorkloadResults: bool, batchSizes: List[int], implArgs=dict(), exp_args=dict(), verbose=0, skip_loaded_optimizers=False):
     """
     Randomly query the oracle for the optimum for synthetic workloads.
 
@@ -37,7 +37,7 @@ def query_random(*, inputFileName: str, scenarioName: str, addOptimizersFromInpu
     
     print ("Querying the oracle for the optimum for synthetic workloads")
 
-    oracle, optimizer = Oracle.setup_oracle(inputFileName=inputFileName, scenarioName=scenarioName, addOptimizersFromInput=addOptimizersFromInput, optimizer=optimizer, implArgs=implArgs, verbose=verbose)
+    oracle, optimizer = Oracle.setup_oracle(inputFileName=inputFileName, scenarioName=scenarioName, addOptimizersFromInput=addOptimizersFromInput, optimizer=optimizer, implArgs=implArgs, verbose=verbose, skip_loaded_optimizers=skip_loaded_optimizers)
 
     # Randomly generate workloads
     noApps = oracle.no_apps

@@ -17,7 +17,7 @@ def scaling(*, precomputation_root_dir: str, precomputation_file_base_name: str 
         experiment_dir = os.path.join(root_dir, "cpu"),
         output_file = output_file,
         no_workloads = 1000,
-        optimizer = [], #["ILP"],
+        optimizer = ["ILP"],
         device = "cpu",
         threads = 40,
         precision = "float32",
@@ -47,6 +47,9 @@ def scaling(*, precomputation_root_dir: str, precomputation_file_base_name: str 
         if experiment.device == "cpu" and "aws-eu" == experiment.precomputation_details["region_selector"]:
             experiment.optimizer = ["Candidates", "ILP"]
 
+    # For debugging execute only ILP
+    # experiments = [e for e in experiments if e.optimizer == ["ILP"]]
+
     print(f"Running {len(experiments)} experiments")
 
     # Sort experiments by the replication factor
@@ -57,7 +60,7 @@ def scaling(*, precomputation_root_dir: str, precomputation_file_base_name: str 
 
     print("Running experiments for files:")
     for e in experiments:
-        print(f"\t{e.precomputation_file}")
+        print(f"\t{e.optimizer}{'+ SkyPIE' if e.add_optimizers_from_input else ''}: {e.precomputation_file}")
 
     # Run the experiments
     Experiment.run_all(experiments=experiments, output_file=os.path.join(root_dir, output_file))

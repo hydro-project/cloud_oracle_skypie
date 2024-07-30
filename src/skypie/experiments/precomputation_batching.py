@@ -33,10 +33,13 @@ def precomputation_batching(*, precomputation_root_dir: str, precomputation_file
         args_list.append(args_gpu)
 
     # Create an experiment for each experiment.json within the precomputation_root_dir
-    experiments = list([*Experiment.from_precomputation(args_list=args_list, precomputation_root_dir=precomputation_root_dir, precomputation_file_base_name=precomputation_file_base_name)])
+    experiments = [*Experiment.from_precomputation(args_list=args_list, precomputation_root_dir=precomputation_root_dir, precomputation_file_base_name=precomputation_file_base_name)]
+
+    # Filter out experiment used in the paper:
+    experiments = [e for e in experiments if e.min_replication_factor == 3 and e.precomputation_details["region_selector"] == "azure|aws"]
     
-    # Query candidate once
-    #experiments[0].optimizer = ["Candidates"]
+    if len(experiments) == 0:
+        raise ValueError("No precomputation files found for scenario aws-azure and replication factor 3")
 
     print("Running experiments for files:")
     for e in experiments:

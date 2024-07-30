@@ -45,40 +45,30 @@ See [examples](./examples/simple_skypie_example.py) how to use the oracle API or
 
 # Rerun Experiments
 
-- Precomputation
-- Querying
-- Plotting
-
 ## Online Optimization Performance
 
-- Precomputation inside Docker: `python -m deploy --experiment sigmod_scaling --redundancy-elimination-workers=60 --output-dir=./local_results/precomputation_scaling`
-- Experiment "Online Optimization Time":
-- Experiment "Online Optimization Accuracy":
+- Precomputation inside Docker: `python -m deploy --experiment sigmod_scaling --redundancy-elimination-workers=60 [--output-dir=<root result directory>/precomputation_scaling]`
+- Experiment "Online Optimization Time" (Fig. 7 a-b): `python3 -m skypie scaling [directory of precomputed oracle]`
+- Experiment "Online Optimization Time by Batch Size" (Fig. 7 c): `python3 -m skypie query_batching [directory of precomputed oracle]`
+- Experiment "Online Optimization Accuracy" (Fig. 7 d): **Extract results from scaling experiment?**
 
 ## Precomputation Performance
 
-- Precomputation inside Docker: `python -m deploy --experiment sigmod_batch_size --redundancy-elimination-workers=60 --output-dir=./local_results/precomputation_scaling`
-- Experiment for query time:
+- Precomputation inside Docker (Fig. 8a): _reuse sigmod scaling_
+- Precomputation batching for Azure-AWS f=3, inside Docker (Fig 8 b-c): `python -m deploy --experiment sigmod_batch_size --redundancy-elimination-workers=60 [--output-dir=<root result directory>/precomputation_batching]`
+- Query time under precomputation batching (Fig 8 d): `python3 -m skypie precomputation_batching [directory of precomputed batched oracles]`
 
 ## Real Trace
 
-- Download trace files
-- Execute precomputation inside Docker container: `python -m deploy --experiment sigmod_real_trace --redundancy-elimination-workers=60 --output-dir=./local_results/precomputation_real_trace`
+- [Download trace files](doi.org/10.5281/zenodo.13129407)
+- Execute precomputation inside Docker container: `python -m deploy --experiment sigmod_real_trace --redundancy-elimination-workers=60 [--output-dir=<root result directory>/precomputation_real_trace]`
 - Execute experiment: `python3 -m skypie real_trace [directory of precomputed oracle] --trace_dir [directory of downloaded trace]`
     - Overwrite CUDA device with `--torchDeviceRayShooting cuda:X` or skip cuda with `--torchDeviceRayShooting cpu`
     - Overwrite output directory with `--output [directory]`
 - Result location default, relative to working directory: `results/real_trace/real_trace_result.pandas.pickle`
 
-## TODO
-
-- Upload trace
-- Use default output dirs and configure queries to pick these
-- Integrate full experiment run into Docker
-- Plots
-- Compare performance to paper after refactoring
-- Compare performance of compile versus interpreted querying
-
 # TODOs
+- Compare performance of compile versus interpreted querying
 
 ### Bugs
 (No known bugs)

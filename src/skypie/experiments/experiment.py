@@ -38,6 +38,7 @@ class Experiment:
     precision: str = "float32"
     device: str = "cpu"
     precomputation_details: "dict" = field(init=False, default_factory=dict)
+    skip_loaded_optimizers: bool = False
 
     def __post_init__(self):
 
@@ -88,7 +89,8 @@ class Experiment:
             "precision": self.precision,
             "torchDeviceRayShooting": self.device,
             "threads": self.threads,
-            "max_batch_size": max(self.batch_sizes)
+            "max_batch_size": max(self.batch_sizes),
+            "skip_loaded_optimizers": self.skip_loaded_optimizers,
         }
 
     def run(self):
