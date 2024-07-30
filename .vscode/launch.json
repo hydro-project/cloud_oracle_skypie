@@ -81,8 +81,44 @@
                 //"/home/vscode/sky-pie-precomputer/results/precomputation_scaling/aws/4",
                 //"/home/vscode/sky-pie-precomputer/results/precomputation_real_trace/aws",
                 //"/home/vscode/sky-pie-precomputer/results/precomputation_scaling/",
-                "--torchDeviceRayShooting", "cuda:3",
+                "--torchDeviceRayShooting", "cuda:0",
                 "--trace_dir", "/data/tbang/ubuntu_trace_final/",
+                "--verbose=0",
+            ]
+        },
+        {
+            "name": "Python: Scaling Experiment",
+            "type": "python",
+            "request": "launch",
+            "module": "skypie",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            },
+            "justMyCode": true,
+            "args": [
+                "scaling",
+                "/data/tbang/git/sky-pie-precomputer/local_results/precomputation_scaling",
+                //"--torchDeviceRayShooting", "cuda:0",
+                "--verbose=0",
+            ]
+        },
+        {
+            "name": "Python: Batching Experiment",
+            "type": "python",
+            "request": "launch",
+            "module": "skypie",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            },
+            "justMyCode": true,
+            "args": [
+                "query_batching",
+                "/data/tbang/git/sky-pie-precomputer/local_results/precomputation_scaling/",
+                //"--torchDeviceRayShooting", "cuda:0",
                 "--verbose=0",
             ]
         }
