@@ -38,7 +38,7 @@ def benchmarkQuerying(oracle: "Oracle", *, workloads: List[Workload], scenarioNa
     records = []
     for optimizer in optimizers:
         print(f"Loading optimizer {optimizer}. RSS={psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024} MB")
-        oracle.prepare_scenario(scenarioName=scenarioName, optimizerType=optimizer)
+        oracle.prepare_scenario(scenario_name=scenarioName, optimizer_type=optimizer)
         print(f"Loaded optimizer {optimizer}. RSS={psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024} MB")
 
         if optimizer.implementation == OracleType.PYTORCH:
@@ -63,6 +63,8 @@ def benchmarkQuerying(oracle: "Oracle", *, workloads: List[Workload], scenarioNa
                     oracle.query(workloadsQuery[:1], timer=None)
 
             # Query
+            if not no_warmup:
+                print("Querying...")
             timer=Timer(verbose=oracle.verbose)
             resAll=list()
             timeTotalAll=list()

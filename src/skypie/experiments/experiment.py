@@ -38,6 +38,7 @@ class Experiment:
     precision: str = "float32"
     device: str = "cpu"
     precomputation_details: "dict" = field(init=False, default_factory=dict)
+    skip_loaded_optimizers: bool = False
 
     def __post_init__(self):
 
@@ -88,6 +89,8 @@ class Experiment:
             "precision": self.precision,
             "torchDeviceRayShooting": self.device,
             "threads": self.threads,
+            "max_batch_size": max(self.batch_sizes),
+            "skip_loaded_optimizers": self.skip_loaded_optimizers,
         }
 
     def run(self):
@@ -153,6 +156,9 @@ class Experiment:
             df = pd.concat([df, pd.DataFrame(results)], ignore_index=True)
             df.to_pickle(output_file)
 
+            print("Results:")
+            print(df)
+
         return df
 
     @classmethod
@@ -170,11 +176,19 @@ class Experiment:
 
         """
         # Traverse the directory tree
+        if not os.path.exists(precomputation_root_dir):
+            raise FileNotFoundError(f"Directory {precomputation_root_dir} not found")
+        
+        has_precomputation_file = False
         for path, _, files in os.walk(precomputation_root_dir):
             for file in files:
                 if file == precomputation_file_base_name:
+                    has_precomputation_file = True
                     
                     precomputation_file = os.path.join(path, precomputation_file_base_name)
 
                     for args in args_list:
                         yield cls(precomputation_file = precomputation_file, **args)
+        
+        if not has_precomputation_file:
+            raise FileNotFoundError(f"Precomputation file {precomputation_file_base_name} not found in {precomputation_root_dir}")

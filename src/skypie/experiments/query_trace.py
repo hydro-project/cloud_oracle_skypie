@@ -40,9 +40,7 @@ def query_trace(*, accessSetRegionMapping: str, inputFileName: str, scenarioName
     Yields:
         r: The result of the benchmark querying.
     """
-    
-    benchmark_args = dict(scenarioName=scenarioName, optimizers=optimizer, batchSizes=batchSizes, no_warmup=no_warmup, translateOptSchemes=translateOptSchemes, noWorkloadResults=skipWorkloadResults, exp_args=exp_args)
-    
+
     print ("Querying the oracle for the optimum of the given access set workload file.")
 
     oracle, optimizer = Oracle.setup_oracle(inputFileName=inputFileName, scenarioName=scenarioName, addOptimizersFromInput=addOptimizersFromInput, optimizer=optimizer, implArgs=implArgs, verbose=verbose, skip_loaded_optimizers=skip_loaded_optimizers)
@@ -119,6 +117,8 @@ def query_trace(*, accessSetRegionMapping: str, inputFileName: str, scenarioName
 
         if output:
             output_file = output + f"_{inputWorkloadFile.split('/')[-1].split('.')[0]}_accessSet_{len(accessSetRegionMapping)}"
+
+        benchmark_args = dict(scenarioName=scenarioName, optimizers=optimizer, batchSizes=batchSizes, no_warmup=no_warmup, translateOptSchemes=translateOptSchemes, noWorkloadResults=skipWorkloadResults, exp_args=exp_args)
 
         print(f"Processing {len(workloads)} workloads of file {inputWorkloadFile}")
         for r in benchmarkQuerying(oracle, workloads=workloads, output=output_file, **benchmark_args):

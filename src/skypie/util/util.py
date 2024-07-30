@@ -180,6 +180,9 @@ def setImplementationArgs(*, implementation: "OracleType", args: Dict[str, Any],
         if implementationArgs.get("device_query", "PLACEHOLDER") == "mps":
             implementationArgs["data_type"] = torch.float32
 
+        if "max_batch_size" in args:
+            implementationArgs["max_batch_size"] = args["max_batch_size"]
+
     elif implementation == OracleType.MOSEK:
 
         implementationArgs["networkPriceFileName"] = args.get("networkPriceFile", PACKAGE_RESOURCES.networkPriceFileName)

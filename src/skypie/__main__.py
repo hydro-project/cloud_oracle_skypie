@@ -23,7 +23,7 @@ def __main__():
     parser = argparse.ArgumentParser(description="SkyPIE optimizer oracle for computing and querying optimal object repliction for any given workload.")
     parser.add_argument("command", type=str, help="Command to execute: 'compute', 'computeNeighbors', 'queryRandom', 'queryFile','queryAccessSetFile', 'listRegions', 'toPickle', 'toJson'.")
     parser.add_argument("input", type=str, help="Input file name.")
-    parser.add_argument("scenario", type=str, help="Scenario name.")
+    parser.add_argument("--scenario", type=str, help="Scenario name.", default="default")
     parser.add_argument("--verbose", type=int, help="Verbose level.", default=0)
     parser.add_argument("--validate", help="Validate the computed optimal repliction schemes/partitions.", action='store_true')
     parser.add_argument("--dump", help="Dump the input for cdd.", action='store_true')
@@ -67,6 +67,10 @@ def __main__():
     parser.add_argument("--noWorkloadResults", help="Do not save results for individual worklaods!", default=False, action="store_true")
     parser.add_argument("--precision", type=str, help="Floating point precision, as by torch: float64, float32, float16, bfloat16, ...", default="float64")
     parser.add_argument("--trace_dir", type=str, help="Directory with trace files.", default=None)
+    parser.add_argument("--skip_spanstore", help="Skip SpanStore in experiments.", action="store_true", default=False)
+    parser.add_argument("--skip_baselines", help="Skip the assorted baselines in experiments.", action="store_true", default=False)
+    parser.add_argument("--skip_skypie", help="Skip SkyPIE in experiments.", action="store_true", default=False)
+
 
     args = parser.parse_args()
 
@@ -80,7 +84,7 @@ def __main__():
     
     if args.command == "real_trace":
         print("Running real trace experiments...")
-        real_trace(trace_dir=args.trace_dir, precomputation_root_dir=args.input, output_file_name=args.output, cuda_device=args.torchDeviceRayShooting)
+        real_trace(trace_dir=args.trace_dir, precomputation_root_dir=args.input, output_file_name=args.output, cuda_device=args.torchDeviceRayShooting, do_spanstore=not args.skip_spanstore, do_baselines=not args.skip_baselines, do_skypie=not args.skip_skypie)
         return 0
     
     if args.command == "accuracy":
