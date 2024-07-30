@@ -68,16 +68,13 @@ See [examples](./examples/simple_skypie_example.py) how to use the oracle API or
 - Result location default, relative to working directory: `results/real_trace/real_trace_result.pandas.pickle`
 
 # TODOs
-- Compare performance of compile versus interpreted querying
 
 ### Bugs
 (No known bugs)
 
 ### General
-- Briefly explain the oracle query API
-- Upload processed ubuntu trace
-- Cleanup experiments
 - Publish SkyPIE packages
+- Compare performance of compiled versus interpreted querying
 
 # Publication
 
